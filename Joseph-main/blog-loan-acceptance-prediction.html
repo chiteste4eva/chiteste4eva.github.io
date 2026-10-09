@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="5,000 bank customers, only 9.6% accepted a loan offer — predicting who says yes with ensemble learning. Bagging reached 99% accuracy.">
+  <meta name="theme-color" content="#163f36">
+  <title>Who Will Say Yes to a Loan? | Joseph Nwankwo</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/portfolio.css">
+  <script src="js/portfolio.js" defer></script>
+  <link rel="canonical" href="https://josephnwankwo.com/blog-loan-acceptance-prediction.html">
+  <meta name="author" content="Joseph Nwankwo">
+  <meta property="og:site_name" content="Joseph Nwankwo">
+  <meta property="og:title" content="Who Will Say Yes to a Loan? | Joseph Nwankwo">
+  <meta property="og:description" content="Predicting loan acceptance with ensemble learning — 99% accuracy on 5,000 customers.">
+  <meta property="og:image" content="https://josephnwankwo.com/assets/loan-acceptance-prediction.jpg">
+  <meta property="og:url" content="https://josephnwankwo.com/blog-loan-acceptance-prediction.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Who Will Say Yes to a Loan? | Joseph Nwankwo">
+  <meta name="twitter:image" content="https://josephnwankwo.com/assets/loan-acceptance-prediction.jpg">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="Joseph Nwankwo, home"><span class="monogram" aria-hidden="true">JN<span>.</span></span><span>Joseph Nwankwo</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>Menu <span aria-hidden="true">☰</span></button>
+    <nav id="site-nav" aria-label="Main navigation"><a href="index.html#about">About</a><a href="index.html#expertise">Expertise</a><a href="index.html#work">Work</a><a href="index.html#education">Education</a><a class="nav-contact" href="index.html#contact">Let’s talk <span aria-hidden="true">↗</span></a></nav>
+  </div></header>
+  <main id="main">
+    <div class="container article-header"><p class="eyebrow">PERSPECTIVE / MACHINE LEARNING</p><h1>Who will say yes<br>to a <em>loan?</em></h1><p class="lead">A bank wants to offer personal loans to the customers most likely to accept. I built classifiers on 5,000 customer records — an ensemble of decision trees won at 99% accuracy.</p><div class="article-meta">Joseph Nwankwo · Data analytics & machine learning · Oct 9, 2026</div></div>
+    <article class="container article-body" aria-label="Who Will Say Yes to a Loan?">
+      <p><img src="assets/loan-acceptance-prediction.jpg" alt="Loan acceptance prediction with ensemble learning" style="width:100%;height:auto;border-radius:12px"></p>
+      
+      <p><strong>At a glance:</strong> Python, pandas, scikit-learn · bank.csv (5,000 customers × 14 fields: age, income, family, education, mortgage, accounts) · target: Personal Loan (only 9.6% positive — imbalanced) · Naive Bayes 0.88 vs. Logistic Regression 0.95 vs. Bagging <strong>0.99 accuracy</strong>.</p>
+      <h2>The business problem.</h2>
+      <p>Marketing a loan to everyone wastes money and annoys customers. Target the right 10% and conversion jumps. The bank's question: which customers are most likely to accept a personal loan offer?</p>
+      <h2>The data.</h2>
+      <p>5,000 customer records with demographics and financial details — age, experience, income, family size, education, mortgage, securities and CD accounts, online banking, credit card usage. Clean: no missing values. The catch: only 480 customers (9.6%) accepted a loan, so the target is heavily imbalanced.</p>
+      <h2>The models.</h2>
+      <p>Naive Bayes set the baseline at 0.88 accuracy. Logistic Regression jumped to 0.95. Then the ensemble — bagging over decision trees — reached <strong>0.99 accuracy</strong>, catching 135 of 144 actual loan-takers while barely misfiring on non-takers. Combining many weak learners beats any single model when the signal is spread across features.</p>
+      <blockquote>On imbalanced data, accuracy alone can lie — so I checked the confusion matrix. The ensemble earns its 99%: high recall on the rare positive class, not just the easy majority.</blockquote>
+      <h2>What it is good for.</h2>
+      <p><strong>Targeted campaigns:</strong> score every customer, call the top decile. <strong>Product design:</strong> the important features reveal what loan-takers look like. <strong>Risk-aware marketing:</strong> fewer wasted offers, happier customers.</p>
+      <h2>What is next.</h2>
+      <p>Probability calibration (ranked lists need honest scores), profit-weighted evaluation, and testing on a fresh campaign cohort.</p>
+      <div class="article-footer"><a class="text-link" href="https://github.com/chiteste4eva/-Loan-Acceptance-Prediction-Using-Ensemble-Learning" target="_blank" rel="noopener">View the code on GitHub <span aria-hidden="true">↗</span></a><br><a class="text-link" href="index.html">Back to my portfolio <span aria-hidden="true">↗</span></a></div>
+    </article>
+    <section class="contact-section"><div class="container"><p class="eyebrow">LET’S CONNECT</p><h2>Have a question?<br><em>Let’s work through it.</em></h2><p>Get in touch about analytics opportunities or collaborations.</p><a class="button button-light" href="mailto:chibuzo.joseph@outlook.com">Email Joseph <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer class="site-footer container"><a class="brand" href="index.html"><span class="monogram" aria-hidden="true">JN<span>.</span></span><span>Joseph Nwankwo</span></a><p>© <span data-year>2026</span> Joseph Nwankwo. All rights reserved.</p><a class="back-top" href="index.html">Back to portfolio ↑</a></footer>
+</body>
+</html>
