@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Can logistics data warn us before a shipment fails? Joseph Nwankwo built and honestly evaluated two machine learning models on shipment lifecycle data.">
+  <meta name="theme-color" content="#163f36">
+  <title>Predicting Supply Chain Disruptions with Machine Learning | Joseph Nwankwo</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/portfolio.css">
+  <script src="js/portfolio.js" defer></script>
+  <link rel="canonical" href="https://josephnwankwo.com/blog-supply-chain-disruptions.html">
+  <meta name="author" content="Joseph Nwankwo">
+  <meta property="og:site_name" content="Joseph Nwankwo">
+  <meta property="og:title" content="Predicting Supply Chain Disruptions with Machine Learning | Joseph Nwankwo">
+  <meta property="og:description" content="Can logistics data warn us before a shipment fails? Two ML models, honestly evaluated.">
+  <meta property="og:image" content="https://josephnwankwo.com/assets/supply-chain-ml.jpg">
+  <meta property="og:url" content="https://josephnwankwo.com/blog-supply-chain-disruptions.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Predicting Supply Chain Disruptions with Machine Learning | Joseph Nwankwo">
+  <meta name="twitter:image" content="https://josephnwankwo.com/assets/supply-chain-ml.jpg">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="Joseph Nwankwo, home"><span class="monogram" aria-hidden="true">JN<span>.</span></span><span>Joseph Nwankwo</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>Menu <span aria-hidden="true">☰</span></button>
+    <nav id="site-nav" aria-label="Main navigation"><a href="index.html#about">About</a><a href="index.html#expertise">Expertise</a><a href="index.html#work">Work</a><a href="index.html#education">Education</a><a class="nav-contact" href="index.html#contact">Let’s talk <span aria-hidden="true">↗</span></a></nav>
+  </div></header>
+  <main id="main">
+    <div class="container article-header"><p class="eyebrow">PERSPECTIVE / MACHINE LEARNING</p><h1>Predicting supply chain<br>disruptions with <em>machine learning.</em></h1><p class="lead">Can the logistics data companies already collect warn us before a shipment fails? I built two models to find out — and reported the weak spots honestly.</p><div class="article-meta">Joseph Nwankwo · Data analytics &amp; machine learning · Oct 8, 2026</div></div>
+    <article class="container article-body" aria-label="Predicting supply chain disruptions with machine learning">
+      <p><img src="assets/supply-chain-ml.jpg" alt="Machine learning applied to supply chain logistics" style="width:100%;height:auto;border-radius:12px"></p>
+      <p><strong>At a glance:</strong> Python, pandas, scikit-learn, SMOTE · shipment lifecycle data (transport metrics, port congestion, inventory, weather, supplier reliability, driver behavior) · Random Forest vs. Gradient Boosting on a stratified 80/20 split · best result: Gradient Boosting with 73.9% accuracy, 0.849 F1, and 98.5% recall.</p>
+      <h2>The business problem.</h2>
+      <p>Every late shipment, congested port, and misplaced pallet costs money. Operations teams usually react <em>after</em> a disruption. The question I set out to answer: can the logistics data companies already collect <strong>predict</strong> disruptions before they happen?</p>
+      <h2>The data.</h2>
+      <p>I worked with shipment lifecycle records covering transportation metrics and arrival-time variance, traffic and port congestion, inventory levels and warehouse handling times, weather conditions, supplier reliability and lead times, driver behavior and fatigue, shipping costs, and fulfillment status. On top of the raw fields, I engineered congestion scores, driver performance indices, supply chain stress indicators, and operational efficiency metrics.</p>
+      <h2>The approach.</h2>
+      <p>Missing values handled with median imputation and numerical features scaled with StandardScaler. Class imbalance addressed with SMOTE so the minority disruption class is properly learned. A stratified 80/20 train-test split kept class ratios honest. Then two models, head to head: Random Forest vs. Gradient Boosting, judged on accuracy, precision, recall, F1, and ROC-AUC.</p>
+      <h2>The results.</h2>
+      <p>Gradient Boosting wins on accuracy (73.87%), recall (98.52%), and F1 (0.849) against Random Forest's 66.71% accuracy and 0.788 F1. That 98.5% recall matters most: it catches nearly every disruption, and in operations a miss costs more than a false alarm.</p>
+      <blockquote>Both ROC-AUC scores sit near 0.50 — the models flag disruptions well but discriminate weakly across thresholds. That is a model that needs more feature work before it goes near production, and knowing where a model isn't ready is part of the job.</blockquote>
+      <h2>What it is good for.</h2>
+      <p><strong>Early warning:</strong> high-recall flagging lets ops teams intervene on at-risk shipments before failure. <strong>Smarter routing:</strong> risk scores feed alternative-routing decisions. <strong>Inventory planning:</strong> reliability signals inform safety-stock levels per lane and supplier. <strong>Supplier scorecards:</strong> modeled reliability beats gut feel when renegotiating contracts.</p>
+      <h2>What is next.</h2>
+      <p>Baseline-model comparison, hyperparameter tuning, calibration checks, and richer time-based features. Then the honest question again: does it actually beat a simple rule-based flag?</p>
+      <div class="article-footer"><a class="text-link" href="https://github.com/chiteste4eva/Supply-Chain-Disruptions-Using-Machine-Learning" target="_blank" rel="noopener">View the code on GitHub <span aria-hidden="true">↗</span></a><br><a class="text-link" href="index.html">Back to my portfolio <span aria-hidden="true">↗</span></a></div>
+    </article>
+    <section class="contact-section"><div class="container"><p class="eyebrow">LET’S CONNECT</p><h2>Have a question?<br><em>Let’s work through it.</em></h2><p>Get in touch about analytics opportunities or collaborations.</p><a class="button button-light" href="mailto:chibuzo.joseph@outlook.com">Email Joseph <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer class="site-footer container"><a class="brand" href="index.html"><span class="monogram" aria-hidden="true">JN<span>.</span></span><span>Joseph Nwankwo</span></a><p>© <span data-year>2026</span> Joseph Nwankwo. All rights reserved.</p><a class="back-top" href="index.html">Back to portfolio ↑</a></footer>
+</body>
+</html>
