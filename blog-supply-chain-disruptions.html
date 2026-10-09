@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Predicting Supply Chain Disruptions with Machine Learning | Joseph Nwankwo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/owl.carousel.min.css">
+  <link rel="stylesheet" href="css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="css/magnific-popup.css">
+  <link rel="stylesheet" href="css/aos.css">
+  <link rel="stylesheet" href="css/ionicons.min.css">
+  <link rel="stylesheet" href="css/flaticon.css">
+  <link rel="stylesheet" href="css/icomoon.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">JOSEPH</a>
+      <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button>
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav nav ml-auto">
+          <li class="nav-item"><a href="index.html#home-section" class="nav-link"><span>Home</span></a></li>
+          <li class="nav-item"><a href="index.html#blog-section" class="nav-link"><span>My Blog</span></a></li>
+          <li class="nav-item"><a href="index.html#contact-section" class="nav-link"><span>Contact</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <section class="hero-wrap js-fullheight" style="background-image: url('images/supply-chain-ml.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+          <h1 class="mb-3 bread">Predicting Supply Chain Disruptions with Machine Learning</h1>
+          <p class="breadcrumbs"><span class="mr-2">Oct 8, 2026</span> <span class="mr-2">Joseph Nwankwo</span> <span>Machine Learning</span></p>
+          <p class="mt-3" style="color:#fff; font-size:1.1rem;">Can logistics data warn us before a shipment fails? I built and honestly evaluated two ML models to find out.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="ftco-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 ftco-animate mx-auto">
+          <div class="p-4 mb-5" style="background:#f8f9fa; border-left:4px solid #007bff;">
+            <h4 class="mb-3">At a glance</h4>
+            <ul class="mb-0">
+              <li><strong>Tools:</strong> Python, pandas, scikit-learn, SMOTE, Matplotlib</li>
+              <li><strong>Data:</strong> shipment lifecycle records — transport metrics, port congestion, inventory, weather, supplier reliability, driver behavior</li>
+              <li><strong>Models:</strong> Random Forest vs. Gradient Boosting (stratified 80/20 split)</li>
+              <li><strong>Best result:</strong> Gradient Boosting — 73.9% accuracy, 0.849 F1, 98.5% recall</li>
+            </ul>
+          </div>
+          <h2 class="mb-3">The business problem</h2>
+          <p>Every late shipment, congested port, and misplaced pallet costs money. Operations teams usually react <em>after</em> a disruption. The question I set out to answer: can the logistics data companies already collect <strong>predict</strong> disruptions before they happen?</p>
+          <h2 class="mb-3 mt-5">The data</h2>
+          <p>I worked with shipment lifecycle data covering transportation metrics and arrival-time variance, traffic and port congestion, inventory levels and warehouse handling times, weather conditions, supplier reliability and lead times, driver behavior and fatigue, shipping costs, and fulfillment status. On top of the raw fields, I engineered congestion scores, driver performance indices, supply chain stress indicators, and operational efficiency metrics.</p>
+          <h2 class="mb-3 mt-5">The approach</h2>
+          <ul>
+            <li>Missing values handled with median imputation; numerical features scaled with StandardScaler.</li>
+            <li>Class imbalance addressed with SMOTE so the minority (disruption) class is properly learned.</li>
+            <li>Stratified 80/20 train-test split to keep class ratios honest.</li>
+            <li>Trained and compared two models: Random Forest vs. Gradient Boosting, evaluated on accuracy, precision, recall, F1, and ROC-AUC.</li>
+          </ul>
+          <h2 class="mb-3 mt-5">The results</h2>
+          <div class="table-responsive mb-4">
+            <table class="table table-bordered">
+              <thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>ROC-AUC</th></tr></thead>
+              <tbody>
+                <tr><td>Random Forest</td><td>66.71%</td><td>75.11%</td><td>82.88%</td><td>0.788</td><td>0.503</td></tr>
+                <tr><td><strong>Gradient Boosting</strong></td><td><strong>73.87%</strong></td><td><strong>74.62%</strong></td><td><strong>98.52%</strong></td><td><strong>0.849</strong></td><td>0.492</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Gradient Boosting wins on accuracy, recall, and F1 — and 98.5% recall means it catches nearly every disruption, which is what matters when a miss costs more than a false alarm. I'm not hiding the weak spot, though: both ROC-AUC scores sit near 0.50, so the models flag disruptions well but discriminate weakly across thresholds. That's a model that needs more feature work and validation before it goes near production — and knowing where a model <em>isn't</em> ready is part of the job.</p>
+          <h2 class="mb-3 mt-5">Business takeaways</h2>
+          <ul>
+            <li><strong>Early warning:</strong> high-recall flagging lets ops teams intervene on at-risk shipments before failure.</li>
+            <li><strong>Smarter routing:</strong> disruption risk scores can feed alternative-routing decisions.</li>
+            <li><strong>Inventory planning:</strong> reliability signals inform safety-stock levels per lane and supplier.</li>
+            <li><strong>Supplier scorecards:</strong> modeled reliability beats gut feel when renegotiating contracts.</li>
+          </ul>
+          <h2 class="mb-3 mt-5">Skills demonstrated</h2>
+          <ul>
+            <li>End-to-end ML workflow in Python: wrangling, feature engineering, modeling, evaluation.</li>
+            <li>Handling real-world messiness: missing data, class imbalance, honest metric reporting.</li>
+            <li>Statistical judgment: choosing recall-weighted evaluation where misses are expensive.</li>
+            <li>Translating model output into decisions a business can act on.</li>
+          </ul>
+          <h2 class="mb-3 mt-5">What's next</h2>
+          <p>Baseline-model comparison, hyperparameter tuning, calibration checks, and richer time-based features. Then the honest question again: does it actually beat a simple rule-based flag?</p>
+          <p class="mt-5"><a href="https://github.com/chiteste4eva/Supply-Chain-Disruptions-Using-Machine-Learning" class="btn btn-primary py-3 px-4" target="_blank">View the code on GitHub</a>
+          <a href="index.html#contact-section" class="btn btn-outline-secondary py-3 px-4 ml-2">Hire me — let's talk</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="ftco-footer ftco-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p>&copy; 2026 Joseph Nwankwo</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
