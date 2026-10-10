@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="90,275 home sales, 58 property features — can machine learning predict where Zillow's Zestimate goes wrong? LightGBM reached MAE 0.06822, and the honest finding matters more.">
+  <meta name="theme-color" content="#262522">
+  <title>Predicting Zillow Zestimate Errors with Machine Learning | Joseph Nwankwo</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/portfolio.css">
+  <script src="js/portfolio.js" defer></script>
+  <link rel="canonical" href="https://josephnwankwo.com/blog-zillow-zestimate-logerror.html">
+  <meta name="author" content="Joseph Nwankwo">
+  <meta property="og:site_name" content="Joseph Nwankwo">
+  <meta property="og:title" content="Predicting Zillow Zestimate Errors with Machine Learning | Joseph Nwankwo">
+  <meta property="og:description" content="Can ML predict where Zillow's Zestimate goes wrong? 90K sales, 58 features, LightGBM — and an honest result.">
+  <meta property="og:image" content="https://josephnwankwo.com/assets/zillow-zestimate-logerror.jpg">
+  <meta property="og:url" content="https://josephnwankwo.com/blog-zillow-zestimate-logerror.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Predicting Zillow Zestimate Errors with Machine Learning | Joseph Nwankwo">
+  <meta name="twitter:image" content="https://josephnwankwo.com/assets/zillow-zestimate-logerror.jpg">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="Joseph Nwankwo, home"><span class="monogram" aria-hidden="true">JN<span>.</span></span><span>Joseph Nwankwo</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>Menu <span aria-hidden="true">☰</span></button>
+    <nav id="site-nav" aria-label="Main navigation"><a href="index.html#about">About</a><a href="index.html#expertise">Expertise</a><a href="index.html#work">Work</a><a href="index.html#education">Education</a><a class="nav-contact" href="index.html#contact">Let’s talk <span aria-hidden="true">↗</span></a></nav>
+  </div></header>
+  <main id="main">
+    <div class="container article-header"><p class="eyebrow">PERSPECTIVE / MACHINE LEARNING</p><h1>Predicting Zillow Zestimate errors<br>with <em>machine learning.</em></h1><p class="lead">Zillow's Zestimate predicts home prices — but every prediction carries an error. I trained gradient-boosted models on 90,275 sales to predict that error itself. LightGBM won at MAE 0.06822 — and the most valuable finding was an honest one.</p><div class="article-meta">Joseph Nwankwo · Data analytics & machine learning · Oct 10, 2026</div></div>
+    <article class="container article-body" aria-label="Predicting Zillow Zestimate Errors with Machine Learning">
+      <p><img src="assets/zillow-zestimate-logerror.jpg" alt="Predicting Zillow Zestimate errors with machine learning" style="width:100%;height:auto;border-radius:12px"></p>
+
+      <p><strong>At a glance:</strong> Python, pandas, scikit-learn, LightGBM, XGBoost · 90,275 home sales × 58 property attributes (Los Angeles, Orange, Ventura counties, 2016) · target: logerror = log(Zestimate) − log(SalePrice) · median baseline vs. LightGBM vs. XGBoost · best: LightGBM MAE 0.06822.</p>
+      <h2>The problem.</h2>
+      <p>Most price-prediction projects ask "what is this home worth?" This one asks a sharper question: <strong>where does Zillow's own model go wrong, and by how much?</strong> For every home that sold, the dataset records the <em>logerror</em> — the gap between Zillow's Zestimate and the actual sale price, on a log scale. Positive means Zillow overvalued the home; negative means it undervalued it. If that error is predictable from a property's characteristics, Zillow could correct its Zestimate before publishing it.</p>
+      <h2>The data.</h2>
+      <p>Two files from Kaggle's Zillow Prize competition: <strong>train_2016</strong> (90,275 sales with parcel id, logerror, and sale date) and <strong>properties_2016</strong> (~58 attributes per property — bedrooms, bathrooms, square footage, year built, location, tax assessments, zoning). Joining every sale to its property record gave 90,275 complete rows. Twenty columns were missing in over 90% of rows — basement square footage, pool details, and the like — and were dropped, leaving 52 features.</p>
+      <h2>Feature engineering.</h2>
+      <p>Raw columns rarely speak for themselves, so I built signals the models could use: <strong>sale month and quarter</strong> (Zestimate accuracy drifts through the year), <strong>property age</strong> (2016 minus year built), <strong>ratios</strong> like living square feet per bedroom, property tax per square foot, and lot-to-living-area ratio, plus <strong>log transforms</strong> of skewed money and size fields. Categorical fields — zoning description, land-use code, county — went in as native LightGBM categoricals.</p>
+      <h2>The models.</h2>
+      <p>An 80/20 train/validation split, same for every model, judged on MAE — the competition's own metric, the average size of the mistake.</p>
+      <p><strong>Median baseline</strong> (predict 0.006 for every home): MAE 0.06835. <strong>LightGBM</strong> (64 leaves, early stopping): <strong>MAE 0.06822</strong>, RMSE 0.16070. <strong>XGBoost</strong> (depth 6, early stopping): MAE 0.06868, RMSE 0.16013. LightGBM takes the competition metric; XGBoost edges RMSE and R².</p>
+      <blockquote>The best model barely beats predicting the median for every home — and that honest result is the most interesting thing this project found.</blockquote>
+      <h2>The honest finding.</h2>
+      <p>Here's what the numbers really say: the Zestimate's error is <strong>mostly unpredictable noise</strong>. The best model explains only about 1% of the variance, and training longer makes validation <em>worse</em> — the model starts memorizing noise within about 15 boosting rounds. This matches the original $1M Kaggle competition, where even the winners shaved only a few percent off the baseline. Most of the error lives in factors no property table can see: a home's condition, unpermitted renovations, micro-neighborhood trends. A negative result, reported plainly, is still a result.</p>
+      <h2>What mattered most.</h2>
+      <p>Where signal did exist, it came from the county's own numbers: <strong>zoning description</strong> topped LightGBM's importance ranking, followed by an engineered <strong>tax-per-square-foot</strong> ratio, the <strong>sale month</strong>, and the county's <strong>assessed property and structure values</strong>. Tax-assessment features dominate — the assessor's valuation carries the most information about where Zillow's model slips.</p>
+      <h2>What is next.</h2>
+      <p>Adding 2017 data to test whether patterns hold across years, trying sale-price-band-specific models (errors may behave differently for luxury homes), and exploring external signals the dataset lacks — renovation permits, listing photos, neighborhood price momentum.</p>
+      <div class="article-footer"><a class="text-link" href="https://github.com/chiteste4eva/Zillow-Zestimate-Logerror-Prediction" target="_blank" rel="noopener">View the code on GitHub <span aria-hidden="true">↗</span></a><br><a class="text-link" href="index.html">Back to my portfolio <span aria-hidden="true">↗</span></a></div>
+    </article>
+    <section class="contact-section"><div class="container"><p class="eyebrow">LET’S CONNECT</p><h2>Have a question?<br><em>Let’s work through it.</em></h2><p>Get in touch about analytics opportunities or collaborations.</p><a class="button button-light" href="mailto:chibuzo.joseph@outlook.com">Email Joseph <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer class="site-footer container"><a class="brand" href="index.html"><span class="monogram" aria-hidden="true">JN<span>.</span></span><span>Joseph Nwankwo</span></a><p>© <span data-year>2026</span> Joseph Nwankwo. All rights reserved.</p><a class="back-top" href="index.html">Back to portfolio ↑</a></footer>
+</body>
+</html>
