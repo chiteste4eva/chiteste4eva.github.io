@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="I built an AI copilot that hunts jobs for you: semantic search over 171 live postings, match ranking against your resume, a pipeline tracker, and an AI agent with tools that read and write. Spark pipeline, pgvector embeddings, Flask app, FastMCP agent — deployed on Databricks.">
+  <meta name="theme-color" content="#262522">
+  <title>AI Job Hunting Copilot | Joseph Nwankwo</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/portfolio.css">
+  <script src="js/portfolio.js" defer></script>
+  <link rel="canonical" href="https://josephnwankwo.com/blog-job-hunting-copilot.html">
+  <meta name="author" content="Joseph Nwankwo">
+  <meta property="og:site_name" content="Joseph Nwankwo">
+  <meta property="og:title" content="AI Job Hunting Copilot | Joseph Nwankwo">
+  <meta property="og:description" content="An AI copilot that hunts jobs for you: semantic search, match ranking, pipeline tracking, and an AI agent — Spark, pgvector, Flask, FastMCP on Databricks.">
+  <meta property="og:image" content="https://josephnwankwo.com/assets/job-hunting-copilot.jpg">
+  <meta property="og:url" content="https://josephnwankwo.com/blog-job-hunting-copilot.html">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Job Hunting Copilot | Joseph Nwankwo">
+  <meta name="twitter:image" content="https://josephnwankwo.com/assets/job-hunting-copilot.jpg">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="Joseph Nwankwo, home"><span class="monogram" aria-hidden="true">JN<span>.</span></span><span>Joseph Nwankwo</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>Menu <span aria-hidden="true">☰</span></button>
+    <nav id="site-nav" aria-label="Main navigation"><a href="index.html#about">About</a><a href="index.html#expertise">Expertise</a><a href="index.html#work">Work</a><a href="index.html#education">Education</a><a class="nav-contact" href="index.html#contact">Let’s talk <span aria-hidden="true">↗</span></a></nav>
+  </div></header>
+  <main id="main">
+    <div class="container article-header"><p class="eyebrow">PERSPECTIVE / AI ENGINEERING</p><h1>AI Job Hunting<br><em>Copilot.</em></h1><p class="lead">Job hunting is a data problem wearing a trench coat: hundreds of postings, scattered tracking, and the same research repeated for every role. So I built a copilot that does the hunting — semantic search over live postings, match ranking against my resume, a pipeline tracker, and an AI agent with tools that read and write.</p><div class="article-meta">Joseph Nwankwo · Data engineering & AI · Oct 19, 2026</div></div>
+    <article class="container article-body" aria-label="AI Job Hunting Copilot">
+      <p><img src="assets/job-hunting-copilot.jpg" alt="AI Job Hunting Copilot" style="width:100%;height:auto;border-radius:12px"></p>
+
+      <p><strong>At a glance:</strong> Spark data pipeline · RemoteOK third-party API · pgvector embeddings (all-MiniLM-L6-v2, 384-dim, HNSW index) · Flask app with 5-tab UI · FastMCP AI agent server with 8 read/write tools · Postgres (Lakebase) as the single source of truth · deployed as a Databricks App · DataExpert.io capstone, graded <strong>A (99/100)</strong>.</p>
+
+      <h2>The problem.</h2>
+      <p>Anyone who has hunted for a job knows the grind: refresh job boards, skim dozens of postings, copy links into a spreadsheet, lose track of what you applied to, and start over tomorrow. Every step is manual, and the signal — <em>which roles actually fit me?</em> — drowns in noise. I wanted a system that treats the job search like what it is: a data pipeline with an analyst on top. This was my capstone for DataExpert.io's <strong>"Rise of the AI Data Engineer"</strong> bootcamp, where the brief demanded five things in one system: a Spark pipeline, a third-party API, unstructured data processing with embeddings, a Databricks App with a real frontend, and an AI agent whose tools both read <em>and</em> write.</p>
+
+      <h2>What it does.</h2>
+      <p>The app opens on five tabs, each one a job-hunt chore, automated:</p>
+      <p><strong>Jobs</strong> — semantic search across every synced posting. Type <em>"remote data analyst roles with SQL and Tableau"</em> and get ranked cards with match percentages, not keyword hits.<br>
+      <strong>Best matches</strong> — every posting ranked against my actual resume embedding, highest match first.<br>
+      <strong>Pipeline</strong> — a kanban board (Saved → Applied → Interviewing → Rejected → Offer) so no application gets lost.<br>
+      <strong>Agent</strong> — a chat copilot: <em>"find me remote analyst jobs," "why is this a match?", "what's gone stale?", "draft a cover letter for this posting."</em><br>
+      <strong>Profile</strong> — my resume, parsed into structured data: headline, skills with years, target roles, work authorization.</p>
+
+      <h2>How it was built.</h2>
+      <p><strong>The pipeline (Spark).</strong> A Spark job pulls postings from the RemoteOK API on a schedule, normalizes titles, companies, locations, and descriptions, deduplicates, and loads them into Postgres tables — 8 spec tables for postings, pipeline stages, notes, and profile data. An Adzuna API client is wired in as a second source, ready for a key.</p>
+      <p><strong>Unstructured data (embeddings).</strong> Every posting description is chunked and embedded with all-MiniLM-L6-v2 (384 dimensions), stored in pgvector with an HNSW index for fast cosine search. At last count: <strong>862 embedded chunks</strong> powering the semantic search and the match ranking.</p>
+      <p><strong>The app (Flask + Databricks Apps).</strong> A Flask backend serves 25 routes — search, ranking, pipeline moves, notes, cover-letter drafting, match explanations — behind a five-tab frontend. It runs as a Databricks App, reading its database URL from the environment, with the Lakebase Postgres as its store.</p>
+
+      <h2>How it all integrates.</h2>
+      <p>The key design decision: <strong>one database, three consumers.</strong> The Spark pipeline writes postings and embeddings into Postgres. The Flask app reads from those same tables to render search, rankings, and the pipeline board — and writes back when you save a job, move a card, or add an interview note. The AI agent is a separate FastMCP server exposing <strong>8 tools</strong> (search_jobs, explain_match, save_job, move_stage, add_note, draft_cover_letter, list_stale, get_profile) that hit the same database through the same API layer the UI uses. Nothing is duplicated: the agent and the interface are two faces of one system, so a job the agent saves appears on your board instantly, and a note you add in the UI is visible to the agent's next answer.</p>
+
+      <h2>The interface.</h2>
+      <p>The first version worked but looked like a prototype. I rebuilt the frontend with a dark navy sidebar, match scores as color-coded badges, a real chat interface for the agent, and a polished kanban board:</p>
+      <p><img src="assets/job-hunting-copilot-ui.jpg" alt="AI Job Hunting Copilot — redesigned interface with dark sidebar, job search, and match badges" style="width:100%;height:auto;border-radius:12px"></p>
+
+      <h2>The results.</h2>
+      <p><strong>171 real job postings</strong> synced and searchable the day it went live. Semantic search returns ranked cards with similarity scores. The agent answers in plain language with job IDs and match percentages. The pipeline board tracks a real application end to end. And the grader agreed: the capstone earned <strong>A (99/100)</strong> — 15/15 on the data pipeline, 15/15 on API integration, 15/15 on unstructured data processing, 15/15 on the Databricks App, 29/30 on the AI agent — closing out the bootcamp at 100 / 100 / 95 / 99.</p>
+      <blockquote>The whole job search, compressed into one system: the pipeline finds the roles, the embeddings rank them, the agent reasons over them, and the board tracks them.</blockquote>
+      <h2>What is next.</h2>
+      <p>Plugging in the Adzuna API key for a second posting source, scheduled re-syncs so the index never goes stale, and multi-step agent reasoning so the copilot can chain tools — search, compare, then draft — in a single answer.</p>
+      <div class="article-footer"><a class="text-link" href="https://github.com/chiteste4eva/job-hunting-copilot" target="_blank" rel="noopener">View the code on GitHub <span aria-hidden="true">↗</span></a><br><a class="text-link" href="index.html">Back to my portfolio <span aria-hidden="true">↗</span></a></div>
+    </article>
+    <section class="contact-section"><div class="container"><p class="eyebrow">LET’S CONNECT</p><h2>Have a question?<br><em>Let’s work through it.</em></h2><p>Get in touch about analytics opportunities or collaborations.</p><a class="button button-light" href="mailto:chibuzo.joseph@outlook.com">Email Joseph <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer class="site-footer container"><a class="brand" href="index.html"><span class="monogram" aria-hidden="true">JN<span>.</span></span><span>Joseph Nwankwo</span></a><p>© <span data-year>2026</span> Joseph Nwankwo. All rights reserved.</p><a class="back-top" href="index.html">Back to portfolio ↑</a></footer>
+</body>
+</html>
